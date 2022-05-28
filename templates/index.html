@@ -10,8 +10,7 @@
 
 	<style>
 		.heading {
-			font-weight: 90;
-			font-size: 4em;
+			font-size: 3rem;
 		}
 
 		img {
@@ -28,34 +27,6 @@
 			display:inline-block;
 		}
 
-		.btn {
-		margin-top: 1rem;
-	  background: #11cdd4;
-	  background-image: -webkit-linear-gradient(top, #11cdd4, #11999e);
-	  background-image: -moz-linear-gradient(top, #11cdd4, #11999e);
-	  background-image: -ms-linear-gradient(top, #11cdd4, #11999e);
-	  background-image: -o-linear-gradient(top, #11cdd4, #11999e);
-	  background-image: linear-gradient(to bottom, #11cdd4, #11999e);
-	  -webkit-border-radius: 8;
-	  -moz-border-radius: 8;
-	  border-radius: 1.4rem;
-	  font-family:'Montserrat', sans-serif;
-	  color: #ffffff;
-	  font-size: 20px;
-	  padding: 10px 20px 10px 20px;
-	  text-decoration: none;
-	}
-
-	.btn:hover {
-	  background: #30e3cb;
-		color: #ffffff;
-	  background-image: -webkit-linear-gradient(top, #30e3cb, #2bc4ad);
-	  background-image: -moz-linear-gradient(top, #30e3cb, #2bc4ad);
-	  background-image: -ms-linear-gradient(top, #30e3cb, #2bc4ad);
-	  background-image: -o-linear-gradient(top, #30e3cb, #2bc4ad);
-	  background-image: linear-gradient(to bottom, #30e3cb, #2bc4ad);
-	  text-decoration: none;
-	}
 	</style>
 
 	</head>
@@ -64,15 +35,20 @@
 
 		<div class="jumbotron">
 			<div class="container">
-				<h1 class="heading"><b> IMAGE CAPTIONING </b></h1>
-				<p>Upload your image to generate a caption..</p>
+				<h1 class="heading text-center"><b> IMAGE CAPTIONING </b></h1>
+				<p class="text-center">Upload your image to generate a caption..</p>
 			</div>
 		</div>
 
-		<form class="form-class" method ="POST" action = "/" enctype = "multipart/form-data">
-			<label class = "label-class"><b> Image : </b></label><input class="form-control" type="file" name="userfile" placeholder="Your Image">
+		<form class="form-class d-flex justify-content-evenly" style="margin-top: 4rem;" method ="POST" action = "/" enctype = "multipart/form-data">
+<div>
+			<label class = "label-class"><b> Image : </b></label>
+			<input class="form-control" type="file" name="userfile" placeholder="Your Image">
+</div>
+<div>
+		<button type="submit" class="btn btn-outline-info mt-4"> Submit </button>
+</div>
 
-			<button type="submit" class="btn"> Submit </button>
 		</form>
 
 		<br>
@@ -80,19 +56,26 @@
 
 		{% if your_result %}
 
-			<div class="row">
-				<div class="col-sm-4">
-					<img src="{{your_result['image']}}">
-				</div>
-				<div class="col-sm-8">
-					<p class="text"><b>Generated Caption : </b></p>
-					<p style="font-size: 25px; color = " ><b>{{your_result['caption']}}</b></p>
-				</div>
-			</div>
+
+	<div class="card m-auto shadow rounded-2 img-responsive" style="max-width: 25rem;" >
+  <img src="{{your_result['image']}}" class="card-img-top " alt="...">
+  <div class="card-body">
+    <h5 class="card-title">Generated Caption :</h5>
+    <p class="card-text">{{your_result['caption']}}</p>
+  </div>
+</div>
+
+			<script >
+				let utterance = new SpeechSynthesisUtterance("{{your_result['caption']}}");
+				const  call= ()=> {
+			speechSynthesis.speak(utterance);
+			}
+			call()
+			</script>
 
 		{% endif %}
 
 	</div>
 
 </body>
-</h
+</html>
